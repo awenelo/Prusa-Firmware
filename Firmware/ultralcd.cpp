@@ -3509,8 +3509,6 @@ static inline bool pgm_is_interpunction(const char *c_addr)
     return c == '.' || c == ',' || c == ':'|| c == ';' || c == '?' || c == '!' || c == '/';
 }
 
-static char* 
-
 /**
  * @brief show full screen message
  *
