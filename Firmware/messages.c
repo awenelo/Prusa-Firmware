@@ -160,7 +160,7 @@ const char MSG_DIM[] PROGMEM_I1 = ISTR("Dim"); ////c=6
 const char MSG_AUTO[] PROGMEM_I1 = ISTR("Auto"); ////c=6
 const char MSG_EXPLAIN_MINTEMP[] PROGMEM_I1 = ISTR("Hotend below 10C!"); ////
 const char MSG_EXPLAIN_MINTEMP_BED[] PROGMEM_I1 = ISTR("Bed below 10C!"); ////
-const char MSG_SEE_MANUAL[] PROGMEM_I1 = ISTR("See user manual.")
+const char MSG_SEE_MANUAL[] PROGMEM_I1 = ISTR("See user manual."); ////
 const char MSG_HEAT_ANYWAY[] PROGMEM_I1 = ISTR("Heat anyways"); ////
 const char MSG_PUSH_TO_HEAT[] PROGMEM_I1 = ISTR("Push the knob to heat"); ////c=20 r=2
 const char MSG_RELEASE_TO_STOP[] PROGMEM_I1 = ISTR("Release the knob to cancel"); ////c=20 r=4
