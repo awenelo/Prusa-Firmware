@@ -36,6 +36,7 @@ enum ESeriousErrors {
 	SERIOUS_ERR_MINTEMP_HEATER  = 0x01,
 	SERIOUS_ERR_MINTEMP_BED     = 0x02
 }; // and possibly others in the future.
+// In the event that other serious errors are added, lcd_error_bypass_menu will need to be updated.
 
 //! this is a flag for disabling entering the main menu. If this is set
 //! to anything != 0, the only the main status screen will be shown on the

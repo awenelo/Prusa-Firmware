@@ -1046,14 +1046,45 @@ void lcd_status_screen()                          // NOT static due to using ins
 		}
 	}
 
-	if (current_click
-		&& ( menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE ) // or a serious error blocks entering the menu
-	)
-	{
-		menu_depth = 0; //redundant, as already done in lcd_return_to_status(), just to be sure
-		menu_submenu(lcd_main_menu);
-		lcd_refresh(); // to maybe revive the LCD if static electricity killed it.
+	if (current_click){
+		if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE ) {// If a serious error blocks entering the main menu, 
+			menu_depth = 0; //redundant, as already done in lcd_return_to_status(), just to be sure
+			menu_submenu(lcd_main_menu);
+			lcd_refresh(); // to maybe revive the LCD if static electricity killed it.
+		} else {
+			menu_depth = 0; //redundant, as already done in lcd_return_to_status(), just to be sure
+			menu_submenu(lcd_error_bypass_menu);
+			lcd_refresh(); // to maybe revive the LCD if static electricity killed it.
+		}
 	}
+}
+
+static void lcd_error_bypass_menu() { 
+	// This menu is opened when a user clicks in the status screen when menu_block_entering_on_serious_errors != SERIOUS_ERR_NONE
+	// This menu only handles SERIOUS_ERR_MINTEMP_HEATER and SERIOUS
+	// This menu is similar to the support menu, with all of the first lines pointing back to the status screen
+	if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE | menu_block_entering_on_serious_errors > SERIOUS_ERR_MINTEMP_BED ) {
+		lcd_return_to_status() // We can't handle this error, go back to the main screen
+	}
+	MENU_BEGIN();
+	MENU_ITEM_BACK_P(_T(MSG_WATCH));
+	if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_MINTEMP_HEATER ) {
+		MENU_ITEM_BACK_P(_T(MSG_EXPLAIN_MINTEMP));
+	} else if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_MINTEMP_BED) {
+		MENU_ITEM_BACK_P(_T(MSG_EXPLAIN_MINTEMP_BED));
+	}
+	MENU_ITEM_BACK_P(_T(MSG_SEE_MANUAL));
+	MENU_ITEM_SUBMENU_P(_T(MSG_HEAT_ANYWAY), lcd_hazard_heating_menu);
+	MENU_END();
+
+}
+
+static void lcd_hazard_heating_menu() {
+	// This menu is opened when a user wishes to heat the printer, but the printer is in a dangerous state, like MINTEMP
+	// MINTEMP_HEAT_TARGET
+	MENU_BEGIN();
+	MENU_ITEM_FUNCTION_P(_T(ISTR("Oops! Go Back")), lcd_return_to_status);
+	MENU_END();
 }
 
 void lcd_commands()
@@ -3477,6 +3508,8 @@ static inline bool pgm_is_interpunction(const char *c_addr)
     const char c = pgm_read_byte(c_addr);
     return c == '.' || c == ',' || c == ':'|| c == ';' || c == '?' || c == '!' || c == '/';
 }
+
+static char* 
 
 /**
  * @brief show full screen message
