@@ -125,6 +125,8 @@ static const char* lcd_display_message_fullscreen_nonBlocking_P(const char *msg,
 static void lcd_language_menu();
 #endif
 static void lcd_main_menu();
+static void lcd_error_bypass_menu();
+static void lcd_hazard_heating_menu();
 static void lcd_tune_menu();
 //static void lcd_move_menu();
 static void lcd_settings_menu();
