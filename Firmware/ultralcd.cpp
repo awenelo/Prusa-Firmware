@@ -1063,9 +1063,9 @@ static void lcd_error_bypass_menu() {
 	// This menu is opened when a user clicks in the status screen when menu_block_entering_on_serious_errors != SERIOUS_ERR_NONE
 	// This menu only handles SERIOUS_ERR_MINTEMP_HEATER and SERIOUS
 	// This menu is similar to the support menu, with all of the first lines pointing back to the status screen
-	//if ( (menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE) | (menu_block_entering_on_serious_errors > SERIOUS_ERR_MINTEMP_BED) ) {
-	//	lcd_return_to_status(); // We can't handle this error, go back to the main screen
-	//}
+	if ( (menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE) | (menu_block_entering_on_serious_errors > SERIOUS_ERR_MINTEMP_BED) ) {
+		lcd_return_to_status(); // We can't handle this error, go back to the main screen
+	}
 	MENU_BEGIN();
 	MENU_ITEM_BACK_P(_T(MSG_WATCH));
 	if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_MINTEMP_HEATER ) {
