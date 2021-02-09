@@ -1049,15 +1049,13 @@ void lcd_status_screen()                          // NOT static due to using ins
 	}
 
 	if (current_click){
-		if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE ) {// If a serious error blocks entering the main menu, 
-			menu_depth = 0; //redundant, as already done in lcd_return_to_status(), just to be sure
+		menu_depth = 0; //redundant, as already done in lcd_return_to_status(), just to be sure
+		if ( menu_block_entering_on_serious_errors == SERIOUS_ERR_NONE ) {// If a serious error blocks entering the main menu,
 			menu_submenu(lcd_main_menu);
-			lcd_refresh(); // to maybe revive the LCD if static electricity killed it.
-		} else {
-			menu_depth = 0; //redundant, as already done in lcd_return_to_status(), just to be sure
+		} else {// Send the user to the bypass menu instead
 			menu_submenu(lcd_error_bypass_menu);
-			lcd_refresh(); // to maybe revive the LCD if static electricity killed it.
 		}
+		lcd_refresh(); // to maybe revive the LCD if static electricity killed it.
 	}
 }
 
