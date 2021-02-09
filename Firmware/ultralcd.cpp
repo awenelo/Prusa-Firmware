@@ -1077,15 +1077,15 @@ static void lcd_error_bypass_menu() {
 static void lcd_hazard_heating() {
 	// This page is opened when a user wishes to heat the printer, but the printer is in a dangerous state, like MINTEMP
 	// MINTEMP_HEAT_TARGET
-	KEEPALIVE_STATE(PAUSED_FOR_USER);
 	lcd_encoder = 0;
 	lcd_encoder_diff = 0;
 	bool lcd_clicked_last_check = !LCD_CLICKED; // Update the LCD to display heating messages by setting this to be the oposite of what's expected.
+	KEEPALIVE_STATE(PAUSED_FOR_USER);
 	while(lcd_encoder_diff==0) {
 		manage_heater();
         manage_inactivity(true);
-        lcd_update(2);
-		if (lcd_clicked_last_check == !LCD_CLICKED) {
+        lcd_update(0);
+		if (lcd_clicked_last_check != LCD_CLICKED) {
 			lcd_clicked_last_check = LCD_CLICKED;
 			if (!LCD_CLICKED) {
 				lcd_clear();
