@@ -1074,21 +1074,21 @@ static void lcd_error_bypass_menu() {
 		MENU_ITEM_BACK_P(_T(MSG_EXPLAIN_MINTEMP_BED));
 	}
 	MENU_ITEM_BACK_P(_T(MSG_SEE_MANUAL));
-	MENU_ITEM_SUBMENU_P(_T(MSG_HEAT_ANYWAY), lcd_hazard_heating);
+	MENU_ITEM_FUNCTION_P(_T(MSG_HEAT_ANYWAY), lcd_hazard_heating);
 	MENU_END();
 
 }
 
 static void lcd_hazard_heating() {
-	// This menu is opened when a user wishes to heat the printer, but the printer is in a dangerous state, like MINTEMP
-	// MINTEMP_HEAT_TARGET LCD_CLICKED
+	// This page is opened when a user wishes to heat the printer, but the printer is in a dangerous state, like MINTEMP
+	// MINTEMP_HEAT_TARGET
 	KEEPALIVE_STATE(PAUSED_FOR_USER);
 	lcd_encoder = 0;
 	lcd_encoder_diff = 0;
 	bool lcd_clicked_last_check = !LCD_CLICKED; // Update the LCD to display heating messages by setting this to be the oposite of what's expected.
 	while(lcd_encoder_diff==0) {
 		if (lcd_clicked_last_check == !LCD_CLICKED) {
-			lcd_clicked_last_check = LCD_CLICKED
+			lcd_clicked_last_check = LCD_CLICKED;
 			if (!LCD_CLICKED) {
 				lcd_clear()
 				lcd_set_cursor(1, 1);
