@@ -126,7 +126,7 @@ static void lcd_language_menu();
 #endif
 static void lcd_main_menu();
 static void lcd_error_bypass_menu();
-static void lcd_hazard_heating_menu();
+static void lcd_hazard_heating();
 static void lcd_tune_menu();
 //static void lcd_move_menu();
 static void lcd_settings_menu();
@@ -1074,17 +1074,21 @@ static void lcd_error_bypass_menu() {
 		MENU_ITEM_BACK_P(_T(MSG_EXPLAIN_MINTEMP_BED));
 	}
 	MENU_ITEM_BACK_P(_T(MSG_SEE_MANUAL));
-	MENU_ITEM_SUBMENU_P(_T(MSG_HEAT_ANYWAY), lcd_hazard_heating_menu);
+	MENU_ITEM_SUBMENU_P(_T(MSG_HEAT_ANYWAY), lcd_hazard_heating);
 	MENU_END();
 
 }
 
-static void lcd_hazard_heating_menu() {
+static void lcd_hazard_heating() {
 	// This menu is opened when a user wishes to heat the printer, but the printer is in a dangerous state, like MINTEMP
 	// MINTEMP_HEAT_TARGET
-	MENU_BEGIN();
-	MENU_ITEM_FUNCTION_P(_T(ISTR("Oops! Go Back")), lcd_return_to_status);
-	MENU_END();
+	lcd_set_cursor(1, 1);
+	lcd_printf_P(_T(MSG_PUSH_TO_HEAT));
+	lcd_set_cursor(1, 2);
+	lcd_printf_P(_T(MSG_RELEASE_TO_STOP));
+	lcd_set_cursor(1, 3);
+	lcd_printf_P(_T(MSG_TWIST_TO_EXIT));
+
 }
 
 void lcd_commands()

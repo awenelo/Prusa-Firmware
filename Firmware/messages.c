@@ -162,8 +162,9 @@ const char MSG_EXPLAIN_MINTEMP[] PROGMEM_I1 = ISTR("Hotend below 10C!"); ////
 const char MSG_EXPLAIN_MINTEMP_BED[] PROGMEM_I1 = ISTR("Bed below 10C!"); ////
 const char MSG_SEE_MANUAL[] PROGMEM_I1 = ISTR("See user manual."); ////
 const char MSG_HEAT_ANYWAY[] PROGMEM_I1 = ISTR("Heat anyways"); ////
-const char MSG_PUSH_TO_HEAT[] PROGMEM_I1 = ISTR("Push the knob to heat"); ////c=20 r=2
-const char MSG_RELEASE_TO_STOP[] PROGMEM_I1 = ISTR("Release the knob to cancel"); ////c=20 r=4
+const char MSG_PUSH_TO_HEAT[] PROGMEM_I1 = ISTR("Push the knob to heat"); //// c=20
+const char MSG_RELEASE_TO_STOP[] PROGMEM_I1 = ISTR("Release the knob to stop"); //// c=20
+const char MSG_TWIST_TO_EXIT[] PROGMEM_I1 = ISTR("Turn the knob to cancel"); //// c=20
 #ifdef IR_SENSOR_ANALOG
 // Beware - the space at the beginning is necessary since it is reused in LCD menu items which are to be with a space
 const char MSG_IR_04_OR_NEWER[] PROGMEM_I1 = ISTR(" 0.4 or newer");////c=18

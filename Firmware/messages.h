@@ -164,6 +164,7 @@ extern const char MSG_SEE_MANUAL[];
 extern const char MSG_HEAT_ANYWAY[];
 extern const char MSG_PUSH_TO_HEAT[];
 extern const char MSG_RELEASE_TO_STOP[];
+extern const char MSG_TWIST_TO_EXIT[];
 #ifdef IR_SENSOR_ANALOG
 extern const char MSG_IR_04_OR_NEWER[];
 extern const char MSG_IR_03_OR_OLDER[];
