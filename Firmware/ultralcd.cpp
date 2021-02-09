@@ -1082,6 +1082,9 @@ static void lcd_hazard_heating() {
 	lcd_encoder_diff = 0;
 	bool lcd_clicked_last_check = !LCD_CLICKED; // Update the LCD to display heating messages by setting this to be the oposite of what's expected.
 	while(lcd_encoder_diff==0) {
+		manage_heater();
+        manage_inactivity(true);
+        lcd_update(2);
 		if (lcd_clicked_last_check == !LCD_CLICKED) {
 			lcd_clicked_last_check = LCD_CLICKED;
 			if (!LCD_CLICKED) {
