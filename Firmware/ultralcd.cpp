@@ -1081,13 +1081,35 @@ static void lcd_error_bypass_menu() {
 
 static void lcd_hazard_heating() {
 	// This menu is opened when a user wishes to heat the printer, but the printer is in a dangerous state, like MINTEMP
-	// MINTEMP_HEAT_TARGET
-	lcd_set_cursor(1, 1);
-	lcd_printf_P(_T(MSG_PUSH_TO_HEAT));
-	lcd_set_cursor(1, 2);
-	lcd_printf_P(_T(MSG_RELEASE_TO_STOP));
-	lcd_set_cursor(1, 3);
-	lcd_printf_P(_T(MSG_TWIST_TO_EXIT));
+	// MINTEMP_HEAT_TARGET LCD_CLICKED
+	KEEPALIVE_STATE(PAUSED_FOR_USER);
+	lcd_encoder = 0;
+	lcd_encoder_diff = 0;
+	bool lcd_clicked_last_check = !LCD_CLICKED; // Update the LCD to display heating messages by setting this to be the oposite of what's expected.
+	while(lcd_encoder_diff==0) {
+		if (lcd_clicked_last_check == !LCD_CLICKED) {
+			lcd_clicked_last_check = LCD_CLICKED
+			if (!LCD_CLICKED) {
+				lcd_clear()
+				lcd_set_cursor(1, 1);
+				lcd_printf_P(_T(MSG_PUSH_TO_HEAT));
+				lcd_set_cursor(1, 2);
+				lcd_printf_P(_T(MSG_RELEASE_TO_STOP));
+				lcd_set_cursor(1, 3);
+				lcd_printf_P(_T(MSG_TWIST_TO_EXIT));
+			} else { // Need to start heating
+				lcd_clear()
+				lcd_set_cursor(1, 1);
+				lcd_printf_P(_T(MSG_PUSH_TO_HEAT));
+				lcd_set_cursor(1, 2);
+				lcd_printf_P(_T(MSG_RELEASE_TO_STOP));
+				lcd_set_cursor(1, 3);
+				lcd_printf_P(_T(MSG_TWIST_TO_EXIT));
+				lcd_set_cursor(1, 4);
+				lcd_printf_P(_T(MSG_HEATING));
+			}
+		}
+	}
 
 }
 
