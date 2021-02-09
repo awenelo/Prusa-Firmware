@@ -1089,21 +1089,21 @@ static void lcd_hazard_heating() {
 			lcd_clicked_last_check = LCD_CLICKED;
 			if (!LCD_CLICKED) {
 				lcd_clear();
-				lcd_set_cursor(1, 1);
+				lcd_set_cursor(0, 1);
 				lcd_printf_P(_T(MSG_PUSH_TO_HEAT));
-				lcd_set_cursor(1, 2);
+				lcd_set_cursor(0, 2);
 				lcd_printf_P(_T(MSG_RELEASE_TO_STOP));
-				lcd_set_cursor(1, 3);
+				lcd_set_cursor(0, 3);
 				lcd_printf_P(_T(MSG_TWIST_TO_EXIT));
 			} else { // Need to start heating
 				lcd_clear();
-				lcd_set_cursor(1, 1);
+				lcd_set_cursor(0, 1);
 				lcd_printf_P(_T(MSG_PUSH_TO_HEAT));
-				lcd_set_cursor(1, 2);
+				lcd_set_cursor(0, 2);
 				lcd_printf_P(_T(MSG_RELEASE_TO_STOP));
-				lcd_set_cursor(1, 3);
+				lcd_set_cursor(0, 3);
 				lcd_printf_P(_T(MSG_TWIST_TO_EXIT));
-				lcd_set_cursor(1, 4);
+				lcd_set_cursor(0, 4);
 				lcd_printf_P(_T(MSG_HEATING));
 			}
 		}
