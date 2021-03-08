@@ -79,7 +79,7 @@ void eeprom_init()
             eeprom_default_sheet_name(i,sheetName);
 
             for (uint_least8_t a = 0; a < sizeof(Sheet::name); ++a){
-                eeprom_write(&(EEPROM_Sheets_base->s[i].name[a]), sheetName.c[a]);
+                eeprom_update_byte(&(EEPROM_Sheets_base->s[i].name[a]), sheetName.c[a]);
             }
         }
     }
