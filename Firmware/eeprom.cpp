@@ -73,11 +73,11 @@ void eeprom_init()
     
     for (uint_least8_t i = 0; i < (sizeof(Sheets::s)/sizeof(Sheets::s[0])); ++i)
     {
-        bool is_uninitialized = true;
-        for (uint_least8_t j = 0; j < (sizeof(Sheet::name)/sizeof(Sheet::name[0])); ++j)
+        bool is_uninitialized = eeprom_is_sheet_initialized(i);
+        /*for (uint_least8_t j = 0; j < (sizeof(Sheet::name)/sizeof(Sheet::name[0])); ++j)
         {
             if (!eeprom_is_uninitialized(&(EEPROM_Sheets_base->s[i].name[j]))) is_uninitialized = false;
-        }
+        }*/
         if(is_uninitialized)
         {
             SheetName sheetName;
