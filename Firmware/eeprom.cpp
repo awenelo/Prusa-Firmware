@@ -122,12 +122,12 @@ void eeprom_init()
     for (uint_least8_t i = 0; i < (sizeof(Sheets::s)/sizeof(Sheets::s[0])); ++i)
     {
         bool is_uninitialized = true;
-        bool old_name_matched = true;
+        bool old_name_matched = i>3;
 
         for (uint_least8_t j = 0; j < (sizeof(Sheet::name)/sizeof(Sheet::name[0])); ++j)
         {
             if (!eeprom_is_uninitialized(&(EEPROM_Sheets_base->s[i].name[j]))) is_uninitialized = false;
-            old_name_matched &= eeprom_matches_old_sheet_name(i, j, eeprom_read_byte(reinterpret_cast<uint8_t*>(&(EEPROM_Sheets_base->s[i].name[j]))));
+            old_name_matched = eeprom_matches_old_sheet_name(i, j, eeprom_read_byte(reinterpret_cast<uint8_t*>(&(EEPROM_Sheets_base->s[i].name[j])))) && old_name_matched;
         }
         if(is_uninitialized || old_name_matched)
         {
