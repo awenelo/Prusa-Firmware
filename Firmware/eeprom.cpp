@@ -47,6 +47,54 @@ bool eeprom_is_sheet_initialized(uint8_t sheet_num)
   s[sheet_num].z_offset))));
 }
 
+//! @brief Checks if the character provided, at position j is equal to the old sheet name at the same index.
+//!
+//! @param[in] index
+//! @param[in] j
+//! @param[in] c
+//! @param[out] sheetName
+bool eeprom_matches_old_sheet_name(uint8_t index, uint8_t j, char c)
+{
+    if (j<6) {
+        if (index < 2)
+        {
+            return PSTR("Smooth")[j]==c;
+        }
+        else if (index < 4)
+        {
+            return PSTR("Textur")[j]==c;
+        }
+        else
+        {
+            return PSTR("Custom")[j]==c;
+        }
+    } else if (j==6) {
+        switch (index)
+        {
+        case 0:
+            return c == '1';
+        case 1:
+            return c == '2';
+        case 2:
+            return c == '1';
+        case 3:
+            return c == '2';
+        case 4:
+            return c == '1';
+        case 5:
+            return c == '2';
+        case 6:
+            return c == '3';
+        case 7:
+            return c == '4';
+        default:
+            return false; // If something goes wrong, it's better to not update EEPROM.
+        }
+    } else {
+        return c == '\0';
+    }
+}
+
 void eeprom_init()
 {
     if (eeprom_read_byte((uint8_t*)EEPROM_POWER_COUNT) == 0xff) eeprom_write_byte((uint8_t*)EEPROM_POWER_COUNT, 0);
@@ -74,11 +122,14 @@ void eeprom_init()
     for (uint_least8_t i = 0; i < (sizeof(Sheets::s)/sizeof(Sheets::s[0])); ++i)
     {
         bool is_uninitialized = true;
+        bool old_name_matched = true;
+
         for (uint_least8_t j = 0; j < (sizeof(Sheet::name)/sizeof(Sheet::name[0])); ++j)
         {
             if (!eeprom_is_uninitialized(&(EEPROM_Sheets_base->s[i].name[j]))) is_uninitialized = false;
+            old_name_matched &= eeprom_matches_old_sheet_name(i, j, eeprom_read_byte(reinterpret_cast<uint8_t*>(&(EEPROM_Sheets_base->s[i].name[j]))));
         }
-        if(is_uninitialized)
+        if(is_uninitialized || old_name_matched)
         {
             SheetName sheetName;
             eeprom_default_sheet_name(i,sheetName);
