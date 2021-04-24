@@ -7518,7 +7518,7 @@ Sigma_Exit:
     
     #### Parameters
 	- `S` - Extrude factor override percentage (0..100 or higher), default 100%
-	- `T` - Extruder drive number (Prusa Firmware only), default 0 if not set.
+	- `T` - Extruder drive number (Prusa Firmware only), overrides all extrusion factors if not set.
     */
     case 221: // M221 S<factor in percent>- set extrude factor override percentage
     {
@@ -7534,7 +7534,12 @@ Sigma_Exit:
             }
             else
             {
-                extrudemultiply = tmp_code ;
+                extrudemultiply = tmp_code;
+                #if EXTRUDERS > 1
+                  override_extrusion_factors(extrudemultiply);
+                #else
+                  extruder_multiply[0] = tmp_code;
+                #endif
             }
         }
         else
@@ -10115,26 +10120,35 @@ void save_statistics(unsigned long _total_filament_used, unsigned long _total_pr
 
 }
 
-float calculate_extruder_multiplier(float diameter) {
+float calculate_extruder_multiplier(float diameter, uint8_t calculate_for_extruder) {
   float out = 1.f;
   if (cs.volumetric_enabled && diameter > 0.f) {
     float area = M_PI * diameter * diameter * 0.25;
     out = 1.f / area;
   }
-  if (extrudemultiply != 100)
-    out *= float(extrudemultiply) * 0.01f;
+  if (extruder_multiply[calculate_for_extruder] != 100)
+    out *= float(extruder_multiply[calculate_for_extruder]) * 0.01f;
   return out;
 }
 
 void calculate_extruder_multipliers() {
-	extruder_multiplier[0] = calculate_extruder_multiplier(cs.filament_size[0]);
+	extruder_multiplier[0] = calculate_extruder_multiplier(cs.filament_size[0], 0);
 #if EXTRUDERS > 1
-	extruder_multiplier[1] = calculate_extruder_multiplier(cs.filament_size[1]);
+	extruder_multiplier[1] = calculate_extruder_multiplier(cs.filament_size[1], 1);
 #if EXTRUDERS > 2
-	extruder_multiplier[2] = calculate_extruder_multiplier(cs.filament_size[2]);
+	extruder_multiplier[2] = calculate_extruder_multiplier(cs.filament_size[2], 2);
 #endif
 #endif
 }
+
+#if EXTRUDERS > 1
+void override_extruder_multipliers(int extrude_multiply) {
+  extruder_multiply[1] = extrude_multiply;
+  #if EXTRUDERS > 2
+	extruder_multiply[2] = extrude_multiply;
+  #endif
+}
+#endif
 
 void delay_keep_alive(unsigned int ms)
 {

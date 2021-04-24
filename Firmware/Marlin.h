@@ -389,6 +389,9 @@ extern LongTimer safetyTimer;
 #define CHECK_FSENSOR ((IS_SD_PRINTING || is_usb_printing) && (mcode_in_progress != 600) && !saved_printing && e_active())
 
 extern void calculate_extruder_multipliers();
+#if EXTRUDERS > 1
+extern void override_extruder_multipliers(int extrude_multiply);
+#endif
 
 // Similar to the default Arduino delay function, 
 // but it keeps the background tasks running.
